@@ -1,0 +1,96 @@
+#define CHAR_UP byte(0)
+#define CHAR_UPRIGHT byte(1)
+#define CHAR_RIGHT byte(2)
+#define CHAR_DOWNRIGHT byte(3)
+#define CHAR_DOWN byte(4)
+#define CHAR_DOWNLEFT byte(5)
+#define CHAR_LEFT byte(6)
+#define CHAR_UPLEFT byte(7)
+
+byte _upLeftArrow[] = {
+B11111,
+B10000,
+B10011,
+B10101,
+B10110,
+B11111,
+B11111,
+B11111
+};
+
+byte _upRightArrow[] = {
+B11111,
+B00001,
+B11001,
+B10101,
+B01101,
+B11111,
+B11111,
+B11111
+};
+
+byte _downLeftArrow[] = {
+B11111,
+B11111,
+B11111,
+B10110,
+B10101,
+B10011,
+B10000,
+B11111
+};
+
+byte _downRightArrow[] = {
+B11111,
+B11111,
+B11111,
+B01101,
+B10101,
+B11001,
+B00001,
+B11111
+};
+
+byte _upArrow[] = {
+B11011,
+B10001,
+B01010,
+B11011,
+B11011,
+B11011,
+B11011,
+B11111
+};
+
+byte _downArrow[] = {
+B11111,
+B11011,
+B11011,
+B11011,
+B11011,
+B01010,
+B10001,
+B11011
+};
+
+byte _leftArrow[] = {
+B11111,
+B11011,
+B10111,
+B00000,
+B10111,
+B11011,
+B11111,
+B11111
+};
+
+byte _rightArrow[] = {
+B11111,
+B11011,
+B11101,
+B00000,
+B11101,
+B11011,
+B11111,
+B11111
+};

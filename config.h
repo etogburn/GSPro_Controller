@@ -1,20 +1,15 @@
-#include <Wire.h> 
-#include <LiquidCrystal_I2C.h>
-#include <Keyboard.h>
-#include "src/Button_Controller.h"
-#include "src/Mouse_Controller.h"
+#ifndef CONFIG_h
+#define CONFIG_h
+
 #include "src/Game_Function.h"
 #include "src/Keyboard_Function.h"
 #include "src/Mouse_Function.h"
-#include "Custom_Chars.h"
+#include "src/Menu_Function.h"
 
 #define MENU_FUNCTIONS 10
 #define GAME_FUNCTIONS 33
 #define NUM_OF_MENUS 2
-bool menuSelectMode = true;
-uint8_t activeMenu = 1;
-const char * menuName[4] = {"Standard", "Mouse", "N/A", "N/A"};
-const uint8_t menuBtns[NUM_OF_MENUS] = {9,8};
+#define ACTIVE_MENU 1
 
 Game_Function *game[GAME_FUNCTIONS] = {
   new Mouse_Function(MOUSE_REL_FUNCTION, "2y", 0, -2),
@@ -52,7 +47,20 @@ Game_Function *game[GAME_FUNCTIONS] = {
   new Mouse_Function(MOUSE_CLICK_FUNCTION, "DR-Bot", 20, 20)
 };
 
-Game_Function *menu[NUM_OF_MENUS][MENU_FUNCTIONS] = {
+Menu_Function *mainMenuList[MENU_FUNCTIONS] = {
+  nullptr,
+  nullptr,
+  nullptr,
+  nullptr,
+  nullptr,
+  nullptr,
+  nullptr,
+  nullptr,
+  new Menu_Function(0, "Mouse", 1),
+  new Menu_Function(0, "Standard", 0)
+};
+
+Game_Function *menuList[NUM_OF_MENUS][MENU_FUNCTIONS] = {
   {
     game[9],
     game[10],
@@ -78,3 +86,5 @@ Game_Function *menu[NUM_OF_MENUS][MENU_FUNCTIONS] = {
     game[9]
   }
 };
+
+#endif
