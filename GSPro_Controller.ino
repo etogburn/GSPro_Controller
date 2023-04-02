@@ -30,26 +30,55 @@ void setup() {
   lcd.backlight();
   loadCustomChars();
   lcd.home();
-  printMenuChange();
+  printMenuChange(false);
 }
 
 void loop() {
+  if((buttons[menuBtn1].State(BTN_PRESSED) && buttons[menuBtn2].State(BTN_RELEASING)) ||
+     (buttons[menuBtn2].State(BTN_PRESSED) && buttons[menuBtn1].State(BTN_RELEASING)) ||
+     (buttons[menuBtn2].State(BTN_RELEASING) && buttons[menuBtn1].State(BTN_RELEASING)) ) {
+    menu[activeMenu][menuBtn1]->Stop();
+    menu[activeMenu][menuBtn2]->Stop();
+    printMenuChange(false);
+
+    while(buttons[menuBtn2].State(BTN_PRESSED) || buttons[menuBtn1].State(BTN_PRESSED) || 
+          buttons[menuBtn1].State(BTN_RELEASING) || buttons[menuBtn2].State(BTN_RELEASING)) {
+      buttons[menuBtn1].DoEvents();
+      buttons[menuBtn2].DoEvents();
+    }
+        
+    menuSelectMode = true;   
+  }
+
   for(uint8_t i = 0; i < MENU_FUNCTIONS; i++) {
     buttons[i].DoEvents();
-    if(i < NUM_OF_MENUS && buttons[menuBtns[i]].State(BTN_TIMEOUT_PRESS)) {
-      activeMenu = i;
-      menu[activeMenu][menuBtns[i]]->Stop();
-      printMenuChange();
+    if(menuSelectMode) { 
+      if(i < NUM_OF_MENUS && buttons[menuBtns[i]].State(BTN_RELEASING)) {
+        activeMenu = i; 
+        menuSelectMode = false;
+      } else { 
+        bool _usedMenuBtn = false;
+        for(uint8_t j = 0; j < NUM_OF_MENUS; j++) {
+          if(i == menuBtns[j]) _usedMenuBtn = true; 
+        }
+        if(!_usedMenuBtn && buttons[i].State(BTN_RELEASING)) menuSelectMode = false;
+      }
+    } else {
+      if(i < NUM_OF_MENUS && buttons[menuBtns[i]].State(BTN_TIMEOUT_PRESS)) {
+        activeMenu = i;
+        menu[activeMenu][menuBtns[i]]->Stop();
+        printMenuChange(true);
+      } else {
+        menu[activeMenu][i]->Run(&buttons[i]);
+      }
     }
-     else {
-      menu[activeMenu][i]->Run(&buttons[i]);
-    }
+    
   }                                                                             
   //printButtons();
-  printFunctions();
+  if(!menuSelectMode) printFunctions();
 }
 
-void printMenuChange() {
+void printMenuChange(bool useDelay) {
   lcd.clear();
   lcd.print("Menu- ");
   lcd.print(menuName[activeMenu]);
@@ -57,8 +86,8 @@ void printMenuChange() {
   printRow(firstRow-1, menuName[0], CHAR_UP, menuName[1],  CHAR_UP);
   printRow(firstRow, menuName[2], CHAR_UPLEFT, menuName[3], CHAR_UPRIGHT);
   lcd.setCursor(0,3);
-  lcd.print("Long Press to Go");
-  delay(3000);
+  lcd.print("Press to Go");
+  if(useDelay) delay(3000);
 }
 
 void printFunctions() {

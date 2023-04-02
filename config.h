@@ -9,23 +9,26 @@
 #include "Custom_Chars.h"
 
 #define MENU_FUNCTIONS 10
-#define GAME_FUNCTIONS 33
+#define GAME_FUNCTIONS 34
 #define NUM_OF_MENUS 2
 bool menuSelectMode = true;
-uint8_t activeMenu = 1;
+uint8_t activeMenu = 0;
 const char * menuName[4] = {"Standard", "Mouse", "N/A", "N/A"};
-const uint8_t menuBtns[NUM_OF_MENUS] = {9,8};
+const uint8_t menuBtns[NUM_OF_MENUS] = {9,8}; //set the different menus
+const uint8_t menuBtn1 = 9; //2 buttons to press at the same time to get to the menu change menu
+const uint8_t menuBtn2 = 8;
+
 
 Game_Function *game[GAME_FUNCTIONS] = {
-  new Mouse_Function(MOUSE_REL_FUNCTION, "2y", 0, -2),
-  new Mouse_Function(MOUSE_REL_FUNCTION, "-2y", 0, 2),
-  new Mouse_Function(MOUSE_REL_FUNCTION, "-2x", -2, 0),
-  new Mouse_Function(MOUSE_REL_FUNCTION, "2x", 2, 0),
-  new Mouse_Function(MOUSE_CLICK_FUNCTION, "2020", 20, 20),
-  new Mouse_Function(MOUSE_CLICK_FUNCTION, "4040", 40, 40),
-  new Mouse_Function(MOUSE_CLICK_FUNCTION, "6060", 60, 60),
-  new Mouse_Function(MOUSE_CLICK_FUNCTION, "8080", 80, 80),
-  new Mouse_Function(MOUSE_CLICK_FUNCTION, "9090", 90, 90),
+  new Mouse_Function(MOUSE_REL_FUNCTION, "^", 0, -1),
+  new Mouse_Function(MOUSE_REL_FUNCTION, "v", 0, 1),
+  new Mouse_Function(MOUSE_REL_FUNCTION, "<", -1, 0),
+  new Mouse_Function(MOUSE_REL_FUNCTION, ">", 1, 0),
+  new Mouse_Function(MOUSE_REL_FUNCTION, "^^^", 0, -5),
+  new Mouse_Function(MOUSE_REL_FUNCTION, "vvv", 0, 5),
+  new Mouse_Function(MOUSE_REL_FUNCTION, "<<<", -5, 0),
+  new Mouse_Function(MOUSE_REL_FUNCTION, ">>>", 5, 0),
+  new Mouse_Function(MOUSE_ABS_FUNCTION, "Center", 50, 50),
   new Keyboard_Function(KEY_HOLD_FUNCTION, "Aim ^", KEY_UP_ARROW, 0),
   new Keyboard_Function(KEY_HOLD_FUNCTION, "Aim v", KEY_DOWN_ARROW, 0),
   new Keyboard_Function(KEY_HOLD_FUNCTION, "Aim <", KEY_LEFT_ARROW, 0),
@@ -49,7 +52,8 @@ Game_Function *game[GAME_FUNCTIONS] = {
   new Mouse_Function(MOUSE_CLICK_FUNCTION, "LBallTee", 20, 20),
   new Mouse_Function(MOUSE_CLICK_FUNCTION, "RBallTee", 20, 20),
   new Mouse_Function(MOUSE_CLICK_FUNCTION, "DR-Top", 20, 20),
-  new Mouse_Function(MOUSE_CLICK_FUNCTION, "DR-Bot", 20, 20)
+  new Mouse_Function(MOUSE_CLICK_FUNCTION, "DR-Bot", 20, 20),
+  new Mouse_Function(MOUSE_CLICK_FUNCTION, "Click", -100, -100)
 };
 
 Game_Function *menu[NUM_OF_MENUS][MENU_FUNCTIONS] = {
@@ -70,11 +74,11 @@ Game_Function *menu[NUM_OF_MENUS][MENU_FUNCTIONS] = {
     game[1],
     game[2],
     game[3],
-    game[4],
-    game[5],
     game[6],
     game[7],
+    game[5],
+    game[4],
     game[8],
-    game[9]
+    game[33]
   }
 };

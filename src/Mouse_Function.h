@@ -10,10 +10,11 @@
 #define SCREEN_HEIGHT 2000
 #define SCREEN_SCALE 4 //windows scaling divided by 50
 
-#define MOUSE_CLICK_FUNCTION 0
+#define MOUSE_ABS_FUNCTION 0
 #define MOUSE_DRAG_FUNCTION 1
 #define MOUSE_REL_FUNCTION 2
 #define MOUSE_MULTI_FUNCTION 3
+#define MOUSE_CLICK_FUNCTION 4
 
 class Mouse_Function: public Game_Function {
 public:
@@ -24,6 +25,7 @@ private:
     uint8_t _type;
     int8_t _xVal;
     int8_t _yVal;
+    bool _moveEnabled = true;
 };
 
 #endif
